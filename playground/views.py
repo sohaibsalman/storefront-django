@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Q, F
 from store.models import Collection, Customer, Order, OrderItem, Product
 
 
@@ -19,6 +20,21 @@ def index(request):
 
     # Order items for products in collection 3
     order_items = list(OrderItem.objects.filter(product__collection__id=3))
+
+    # Logical AND operation using filter multiple args
+    logical_and = Product.objects.filter(unit_price=10, inventory__lt=20)
+
+    # Logical AND using chaining filter
+    logical_and_chaining = Product.objects.filter(unit_price=10).filter(inventory__lt=20)
+
+    # Logical OR using Q function
+    logical_or = Product.objects.filter(Q(unit_price=10) | Q(unit_price=20))
+
+    # Logical NOT using Q function
+    logical_not = Product.objects.filter(Q(unit_price=10) | ~Q(inventory__lt=20))
+
+    # Filtering using Reference fields (to compare 1 field/column with another)
+    reference_field = Product.objects.filter(inventory=F('collection__id'))
 
     return render(request, "index.html", { 'customers': customers, 
                                           'collections': collections, 
