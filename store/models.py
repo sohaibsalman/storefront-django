@@ -71,6 +71,7 @@ class OrderItem(models.Model):
 class Address(models.Model):
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
+    zip = models.PositiveSmallIntegerField(null=True)
 
     # This will define 1-to-1 relationship with customer model
     # Django will automatically create a reverse property in Customer class
