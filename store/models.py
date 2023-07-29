@@ -34,9 +34,18 @@ class Order(models.Model):
 
     PAYMENT_STATUS_CHOICES = [
         (PAYMENT_STATUS_PENDING, 'Pending'),
-        (PAYMENT_STATUS_COMPLETE, 'Complate'),
+        (PAYMENT_STATUS_COMPLETE, 'Complete'),
         (PAYMENT_STATUS_FAILED, 'Failed'),
     ]
 
     placed_at = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(max_length=1, choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
+
+
+class Address(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+
+    # This will define 1-to-1 relationship with customer model
+    # Django will automatically create a reverse property in Customer class
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE, primary_key=True)
