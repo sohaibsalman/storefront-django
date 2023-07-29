@@ -36,6 +36,19 @@ def index(request):
     # Filtering using Reference fields (to compare 1 field/column with another)
     reference_field = Product.objects.filter(inventory=F('collection__id'))
 
+    # Sorting
+    sorting = Product.objects.order_by('unit_price', '-title')
+    earliest = Product.objects.earliest('title')
+    latest = Product.objects.latest('title')
+
+    # Limit customer
+    customers = list(Customer.objects.all()[:5])
+
+    # Select product which has been ordered
+    products = Product.objects.filter(id__in=
+        OrderItem.objects.values('product_id').distinct()
+    ).order_by('title')
+
     return render(request, "index.html", { 'customers': customers, 
                                           'collections': collections, 
                                           'products': products,
