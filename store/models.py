@@ -8,6 +8,10 @@ class Promotion(models.Model):
 class Collection(models.Model):
     title = models.CharField(max_length=255)
 
+    # To handle circular dependency between models, we add '+' to related_name argument
+    # This will tell django not to create the reverse relationship field
+    featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+')
+
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
