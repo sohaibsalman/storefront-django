@@ -1,5 +1,10 @@
 from django.db import models
 
+class Promotion(models.Model):
+    description = models.CharField(max_length=255)
+    discount = models.FloatField()
+
+
 class Collection(models.Model):
     title = models.CharField(max_length=255)
 
@@ -11,6 +16,9 @@ class Product(models.Model):
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
+
+    # To create many to many relationship, django will by default create a reverse field by the name <modelname>_set
+    promotions = models.ManyToManyField(Promotion)
 
 
 class Customer(models.Model):
