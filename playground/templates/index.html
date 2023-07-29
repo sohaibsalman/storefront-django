@@ -6,6 +6,39 @@
     <title>Playground</title>
 </head>
 <body>
-    <h1>Current Time - {{ current_time }}</h1>
+    <h1>Customers</h1>
+    <ul>
+        {% for customer in customers %}
+        <li>{{ customer.first_name }} - {{ customer.email }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Collections</h1>
+    <ul>
+        {% for collection in collections %}
+        <li>{{ collection.title }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Products</h1>
+    <ul>
+        {% for product in products %}
+        <li>{{ product.title }} - {{ product.inventory }} </li>
+        {% endfor %}
+    </ul>
+
+    <h1>Orders</h1>
+    <ul>
+        {% for order in orders %}
+        <li>{{ order.placed_at }} - {{ order.customer_id }} </li>
+        {% endfor %}
+    </ul>
+
+    <h1>OrderItems</h1>
+    <ul>
+        {% for order_item in order_items %}
+        <li>{{ order_item.product.title }} - {{ order_item.order.customer_id }} </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
