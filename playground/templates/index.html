@@ -37,7 +37,7 @@
     <h1>OrderItems</h1>
     <ul>
         {% for order_item in order_items %}
-        <li>{{ order_item.product.title }} - {{ order_item.order.customer_id }} </li>
+        <li>{{ order_item }} </li>
         {% endfor %}
     </ul>
 </body>

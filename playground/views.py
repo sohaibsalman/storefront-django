@@ -49,8 +49,12 @@ def index(request):
         OrderItem.objects.values('product_id').distinct()
     ).order_by('title')
 
+    # Selecting related objects
+    orders = Order.objects.order_by('-placed_at').select_related('customer').prefetch_related('orderitem_set__product')[:5]
+
     return render(request, "index.html", { 'customers': customers, 
                                           'collections': collections, 
                                           'products': products,
                                           'orders': orders,
-                                          'order_items': order_items})
+                                          'order_items': order_items
+                                          })
