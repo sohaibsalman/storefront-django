@@ -12,6 +12,14 @@ class Collection(models.Model):
     # This will tell django not to create the reverse relationship field
     featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+')
 
+    # To show collection title on admin site
+    def __str__(self) -> str:
+        return self.title
+    
+    # Customizing the ordering of collection title
+    class Meta:
+        ordering = ['title'] # To order collections by title on admin site
+
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
@@ -24,6 +32,12 @@ class Product(models.Model):
 
     # To create many to many relationship, django will by default create a reverse field by the name <modelname>_set
     promotions = models.ManyToManyField(Promotion)
+
+    def __str__(self) -> str:
+        return self.title
+    
+    class Meta:
+        ordering = ['title']
 
 
 class Customer(models.Model):
