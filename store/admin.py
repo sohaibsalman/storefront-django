@@ -7,6 +7,7 @@ from django.db.models.aggregates import Count
 from django.utils.html import format_html
 from django.urls import reverse
 from .filters.inventory_filter import InventoryFilter
+from .inlines.order_item_inline import OrderItemInline
 from . import models
 
 
@@ -26,6 +27,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ['title']
     }
+    search_fields = ['title']
 
     @admin.display(ordering='inventory')
     def inventory_status(self, product: models.Product) -> str:
@@ -68,10 +70,11 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['customer']
     list_display = ['placed_at', 'payment_status', 'customer']
     list_per_page = 10
     list_select_related = ['customer']
-    autocomplete_fields = ['customer']
+    inlines = [OrderItemInline]
     ordering = ['placed_at', 'payment_status']
 
 
