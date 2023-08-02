@@ -6,6 +6,7 @@ from django.http.request import HttpRequest
 from django.db.models.aggregates import Count
 from django.utils.html import format_html
 from django.urls import reverse
+from .filters.inventory_filter import InventoryFilter
 from . import models
 
 
@@ -18,6 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['unit_price']
     list_per_page = 10
     list_select_related = ['collection']
+    list_filter = ['collection', 'last_update', InventoryFilter]
 
     @admin.display(ordering='inventory')
     def inventory_status(self, product: models.Product) -> str:
@@ -35,6 +37,7 @@ class CustomerAdmin(admin.ModelAdmin):
     ordering = ['first_name', 'last_name']
     list_editable = ['membership']
     list_per_page = 10
+    search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
     @admin.display(ordering='orders_count')
     def orders_count(self, customer: models.Customer) -> str:
